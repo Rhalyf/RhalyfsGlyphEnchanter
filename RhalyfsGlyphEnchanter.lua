@@ -25,11 +25,18 @@ function RGE.Write(message, includeName)
 		preMessage = preMessage..RGE.LONGNAME..": "
 	end
 
-	d(preMessage..RGE.COLORS.GRAY..message.."|r")
+	d(preMessage..RGE.COLORS.GRAY..message.."\n")
 end
 
 function RGE.IsEmpty(str)
 	return str == nil or str == ""
+end
+
+function RGE.AddTTLine(str, font)
+	if (not font) then
+		font = "ZoFontWinH5"
+	end
+	ItemTooltip:AddLine(str, font, 1, 1, 1, BOTTOM, MODIFY_TEXT_TYPE_NONE, TEXT_ALIGN_CENTER, null)
 end
 
 EVENT_MANAGER:RegisterForEvent("RGE_Loaded", EVENT_ADD_ON_LOADED, RGE.OnLoad)

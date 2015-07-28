@@ -10,23 +10,22 @@ function RGE_Glyph:IsValid()
 	   		 self.type == ITEMTYPE_GLYPH_WEAPON)
 end
 
-function RGE_Glyph:AddTooltipLines()
+function RGE_Glyph:AddTooltipLines() -- Add Tooltip lines for Glyph tooltip
 	local displayEquipped = RGE.getSavedSetting("display_equipped")
 	local displayInventory = RGE.getSavedSetting("display_inventory")
-	
+
 	if (displayEquipped or displayInventory) then
-		ItemTooltip:AddLine("", "ZoFontWinH5", 1, 1, 1, BOTTOM)
+		RGE.AddTTLine("")
 		ZO_Tooltip_AddDivider(ItemTooltip)
-		ItemTooltip:AddLine(RGE.COLORS.BLUE..RGE.LONGNAME:upper(), "ZoFontWinH4", 1, 1, 1, BOTTOM)
-		ItemTooltip:AddLine(RGE.COLORS.BLUE.."*"..RGE.COLORS.WHITE.." = item has no enchantment or charges", "ZoFontGameMedium", 1, 1, 1, BOTTOM)
+		RGE.AddTTLine(RGE.COLORS.BLUE..RGE.LONGNAME:upper(), "ZoFontWinH3")
 		local typeStr = self:GetTypeStr()
 		if (displayEquipped) then
-			ItemTooltip:AddLine("", "ZoFontWinH5", 1, 1, 1, BOTTOM)
-			self:AddEquippedTooltipLines(typeStr)
+			RGE.AddTTLine("")
+			self:AddTooltipLinesFor("equipped "..typeStr, BAG_WORN)
 		end
 		if (displayInventory) then
-			ItemTooltip:AddLine("", "ZoFontWinH5", 1, 1, 1, BOTTOM)
-			self:AddInventoryTooltipLines(typeStr)
+			RGE.AddTTLine("")
+			self:AddTooltipLinesFor(typeStr.." in inventory", BAG_BACKPACK)
 		end
 	end
 end
@@ -45,42 +44,18 @@ function RGE_Glyph:GetTypeStr()
 	end
 end
 
-function RGE_Glyph:AddEquippedTooltipLines(typeStr)
-	ItemTooltip:AddLine("ENCHANTABLE EQUIPPED "..typeStr:upper(), "ZoFontWinH5", 1, 1, 1, BOTTOM)
+function RGE_Glyph:AddTooltipLinesFor(typeStr, bag)
+	RGE.AddTTLine(typeStr:upper())
 	local count = 0
-	for i = 0, 21 do -- 22 possible slots in BAG_WORN
-		local enchantee = RGE_Enchantable:New(BAG_WORN, i)
+	local bagSlots = GetBagSize(bag)
+	for i = 0, bagSlots do
+		local enchantee = RGE_Enchantable:New(bag, i)
 		if (enchantee:IsValid() and self:CanEnchant(enchantee)) then
 			count = count + 1
-			local line = enchantee:FormatLink()
-			if (not enchantee:IsEnchanted()) then
-				line = line..RGE.COLORS.BLUE.."*"
-			end
-			ItemTooltip:AddLine(line, "ZoFontGameMedium", 1, 1, 1, BOTTOM)
+			RGE.AddTTLine(enchantee:ToTooltipStr())
 		end
 	end
 	if count == 0 then
-		ItemTooltip:AddLine("No equipped "..typeStr.." are enchantable", "ZoFontGameMedium", 1, 1, 1, BOTTOM)
+		RGE.AddTTLine("No "..typeStr.." are enchantable")
 	end
 end
-
-function RGE_Glyph:AddInventoryTooltipLines(typeStr)
-	ItemTooltip:AddLine("ENCHANTABLE "..typeStr:upper().." IN INVENTORY", "ZoFontWinH5", 1, 1, 1, BOTTOM)
-	local count = 0
-	local bagSlots = GetBagSize(BAG_BACKPACK)
-	for i = 0, bagSlots do 
-		local enchantee = RGE_Enchantable:New(BAG_BACKPACK, i)
-		if (enchantee:IsValid() and self:CanEnchant(enchantee)) then
-			count = count + 1
-			local line = enchantee:FormatLink()
-			if (not enchantee:IsEnchanted()) then
-				line = line..RGE.COLORS.BLUE.."*"
-			end
-			ItemTooltip:AddLine(line, "ZoFontGameMedium", 1, 1, 1, BOTTOM)
-		end
-	end
-	if count == 0 then
-		ItemTooltip:AddLine("No "..typeStr.." in inventory are enchantable", "ZoFontGameMedium", 1, 1, 1, BOTTOM)
-	end
-end
-

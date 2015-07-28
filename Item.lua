@@ -25,42 +25,45 @@ function RGE_Item:IsValid()
 			not RGE.IsEmpty(self.name))
 end
 
-function RGE_Item:FormatLink(itemLinkStyle)
-	local linkLength = self.link:len()
-	local nameLength = self.name:len()
-	local formattedName = self.formattedName or self:FormatName()
-	if (itemLinkStyle == LINK_STYLE_BRACKETS) then
-		formattedName = "["..formattedName.."]"
+function RGE_Item:FormatLink()
+	if (not self.formattedLink) then
+		local linkLength = self.linkLen or self.link:len()
+		local nameLength = self.nameLen or self.name:len()
+		local formattedName = self.formattedName or self:FormatName()
+		local finalLink = ""
+		for i = 1, linkLength-2-nameLength do
+			finalLink = finalLink..self.link:sub(i, i)
+		end
+		finalLink = finalLink..formattedName.."|h"
+		self.formattedLink = finalLink
 	end
-	local finalLink = ""
-	for i = 1, linkLength-2-nameLength do
-		finalLink = finalLink..self.link:sub(i, i)
-	end
-	finalLink = finalLink..formattedName.."|h"
-	return finalLink
+	return self.formattedLink
 end
 
 function RGE_Item:FormatName()
-	local length = self.name:len()
-	local final = ""
-	for i = 1, length do
-		local char = self.name:sub(i, i)
-		if (i == 1 or self.name:sub(i-1, i-1) == " ") then
-			final = final..char:upper()
-		elseif (char == "^") then
-			break
-		else
-			final = final..char
+	if (not self.formattedName) then
+		local length = self.nameLen or self.name:len()
+		local final = ""
+		for i = 1, length do
+			local char = self.name:sub(i, i)
+			if (i == 1 or self.name:sub(i-1, i-1) == " ") then
+				final = final..char:upper()
+			elseif (char == "^") then
+				break
+			else
+				final = final..char
+			end
 		end
+		self.formattedName = final
+		self.formattedNameLen = final:len()
 	end
-	self.formattedName = final
-	return final
+	return self.formattedName
 end
 
-function RGE_Item:FomratName() -- for debugging
+function RGE_Item:Write() -- for debugging
 	local str = ""
 	for k, v in pairs(t) do
-		str = str.."["..k.."]="..tostring(v)..",|r"
+		str = str.."["..k.."]="..tostring(v)..",\n"
 	end
 	RGE.Write(str..", IsValid()="..tostring(self:IsValid()))
 end

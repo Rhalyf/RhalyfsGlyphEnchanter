@@ -25,3 +25,15 @@ end
 function RGE_Enchantable:IsEnchanted()
 	return not RGE.IsEmpty(self.enchantment) and self.hasCharges
 end
+
+function RGE_Enchantable:ToTooltipStr()
+	local formattedLink = self.formattedLink or self:FormatLink()
+	local str = formattedLink
+	if (RGE.getSavedSetting("display_enchantment") and self:IsEnchanted()) then
+		str = str.."\n"..RGE.COLORS.WHITE..self.enchantment
+		if (RGE.getSavedSetting("display_description")) then
+			str = str.."\n("..self.enchantDescription:sub(0, -2)..")"
+		end
+	end
+	return str
+end
