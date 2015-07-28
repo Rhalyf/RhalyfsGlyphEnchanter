@@ -21,12 +21,12 @@ function RGE.AddGlyphEnchantInfo()
 	local bagId = moc.dataEntry.data.bagId
 	local slotIndex = moc.dataEntry.data.slotIndex
 	-- try glyph
-	local item = Glyph:New(bagId, slotIndex)
+	local item = RGE_Glyph:New(bagId, slotIndex)
 	if (item:IsValid()) then 
 		item:AddTooltipLines()
 	else
 		-- try enchantable
-		-- item = Enchantable:New(bagId, slotIndex)
+		-- item = RGE_Enchantable:New(bagId, slotIndex)
 		-- if (item:IsValid()) then
 		-- 	item:AddTooltipLines()
 		-- end

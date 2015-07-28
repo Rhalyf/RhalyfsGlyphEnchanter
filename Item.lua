@@ -1,8 +1,7 @@
--- ZO_Object source: http://esodata.uesp.net/current/src/libraries/utility/baseobject.lua.html
 -- Inheritance LUA Doc: http://www.lua.org/pil/16.2.html 
-Item = {}
+RGE_Item = {}
 
-function Item:New(bagId, slotIndex)
+function RGE_Item:New(bagId, slotIndex)
 	obj = {}
 	setmetatable(obj, self)
 	self.__index = self
@@ -10,8 +9,7 @@ function Item:New(bagId, slotIndex)
 	return obj
 end
 
-function Item:Init(bagId, slotIndex)
-	-- RGE.Write("inside init item "..tostring(self))
+function RGE_Item:Init(bagId, slotIndex)
 	self.bag = bagId
 	self.slot = slotIndex
 	self.link = GetItemLink(self.bag, self.slot)
@@ -19,7 +17,7 @@ function Item:Init(bagId, slotIndex)
 	self.name = GetItemLinkName(self.link)
 end
 
-function Item:IsValid()
+function RGE_Item:IsValid()
 	return (self.bag > -1 and
 			self.slot > -1 and
 			self.type > -1 and
@@ -27,7 +25,7 @@ function Item:IsValid()
 			not RGE.IsEmpty(self.name))
 end
 
-function Item:FormatLink(itemLinkStyle) -- adapted from LootDrop:FormatLink(link)
+function RGE_Item:FormatLink(itemLinkStyle)
 	local linkLength = self.link:len()
 	local nameLength = self.name:len()
 	local formattedName = self.formattedName or self:FormatName()
@@ -42,7 +40,7 @@ function Item:FormatLink(itemLinkStyle) -- adapted from LootDrop:FormatLink(link
 	return finalLink
 end
 
-function Item:FormatName() -- adapted from LootDrop:FormatItemLink(str)
+function RGE_Item:FormatName()
 	local length = self.name:len()
 	local final = ""
 	for i = 1, length do
@@ -57,4 +55,12 @@ function Item:FormatName() -- adapted from LootDrop:FormatItemLink(str)
 	end
 	self.formattedName = final
 	return final
+end
+
+function RGE_Item:FomratName() -- for debugging
+	local str = ""
+	for k, v in pairs(t) do
+		str = str.."["..k.."]="..tostring(v)..",|r"
+	end
+	RGE.Write(str..", IsValid()="..tostring(self:IsValid()))
 end

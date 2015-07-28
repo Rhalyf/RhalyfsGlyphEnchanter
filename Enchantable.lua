@@ -1,6 +1,6 @@
-Enchantable = Item:New()
+RGE_Enchantable = RGE_Item:New()
 
-function Enchantable:Init(bagId, slotIndex)
+function RGE_Enchantable:Init(bagId, slotIndex)
 	self.bag = bagId
 	self.slot = slotIndex
 	self.link = GetItemLink(self.bag, self.slot)
@@ -9,7 +9,7 @@ function Enchantable:Init(bagId, slotIndex)
 	self.hasCharges, self.enchantment, self.enchantDescription = GetItemLinkEnchantInfo(self.link)
 end
 
-function Enchantable:IsValid()
+function RGE_Enchantable:IsValid()
 	return  (self.bag > -1 and
 			self.slot > -1 and
 			self.type > -1 and
@@ -18,10 +18,10 @@ function Enchantable:IsValid()
 			IsItemEnchantable(self.bag, self.slot))
 end
 
-function Enchantable:IsEnchantableBy(glyph)
+function RGE_Enchantable:IsEnchantableBy(glyph)
 	return glyph:CanEnchant(self)
 end
 
-function Enchantable:IsEnchanted()
+function RGE_Enchantable:IsEnchanted()
 	return not RGE.IsEmpty(self.enchantment) and self.hasCharges
 end

@@ -1,6 +1,6 @@
-Glyph = Item:New()
+RGE_Glyph = RGE_Item:New()
 
-function Glyph:IsValid()
+function RGE_Glyph:IsValid()
 	return (self.bag > -1 and
 			self.slot > -1 and
 			not RGE.IsEmpty(self.link) and
@@ -10,7 +10,7 @@ function Glyph:IsValid()
 	   		 self.type == ITEMTYPE_GLYPH_WEAPON)
 end
 
-function Glyph:AddTooltipLines()
+function RGE_Glyph:AddTooltipLines()
 	local displayEquipped = RGE.getSavedSetting("display_equipped")
 	local displayInventory = RGE.getSavedSetting("display_inventory")
 	
@@ -31,11 +31,11 @@ function Glyph:AddTooltipLines()
 	end
 end
 
-function Glyph:CanEnchant(enchantable)
+function RGE_Glyph:CanEnchant(enchantable)
 	return CanItemTakeEnchantment(enchantable.bag, enchantable.slot, self.bag, self.slot)
 end
 
-function Glyph:GetTypeStr()
+function RGE_Glyph:GetTypeStr()
 	if self.type == ITEMTYPE_GLYPH_ARMOR then
 		return "armor"
 	elseif self.type == ITEMTYPE_GLYPH_JEWELRY then
@@ -45,11 +45,11 @@ function Glyph:GetTypeStr()
 	end
 end
 
-function Glyph:AddEquippedTooltipLines(typeStr)
+function RGE_Glyph:AddEquippedTooltipLines(typeStr)
 	ItemTooltip:AddLine("ENCHANTABLE EQUIPPED "..typeStr:upper(), "ZoFontWinH5", 1, 1, 1, BOTTOM)
 	local count = 0
 	for i = 0, 21 do -- 22 possible slots in BAG_WORN
-		local enchantee = Enchantable:New(BAG_WORN, i)
+		local enchantee = RGE_Enchantable:New(BAG_WORN, i)
 		if (enchantee:IsValid() and self:CanEnchant(enchantee)) then
 			count = count + 1
 			local line = enchantee:FormatLink()
@@ -64,12 +64,12 @@ function Glyph:AddEquippedTooltipLines(typeStr)
 	end
 end
 
-function Glyph:AddInventoryTooltipLines(typeStr)
+function RGE_Glyph:AddInventoryTooltipLines(typeStr)
 	ItemTooltip:AddLine("ENCHANTABLE "..typeStr:upper().." IN INVENTORY", "ZoFontWinH5", 1, 1, 1, BOTTOM)
 	local count = 0
 	local bagSlots = GetBagSize(BAG_BACKPACK)
 	for i = 0, bagSlots do 
-		local enchantee = Enchantable:New(BAG_BACKPACK, i)
+		local enchantee = RGE_Enchantable:New(BAG_BACKPACK, i)
 		if (enchantee:IsValid() and self:CanEnchant(enchantee)) then
 			count = count + 1
 			local line = enchantee:FormatLink()

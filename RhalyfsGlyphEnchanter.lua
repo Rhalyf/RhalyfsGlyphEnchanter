@@ -14,7 +14,7 @@ end
 
 function RGE.SignOfLife()
 	EVENT_MANAGER:UnregisterForEvent("RGE_Player_Active", EVENT_PLAYER_ACTIVATED)
-	RGE.Write("Thanks for using "..RGE.COLORS.WHITE..RGE.LONGNAME..RGE.COLORS.GRAY.."!", true)
+	RGE.Write("Thanks for using "..RGE.COLORS.WHITE..RGE.LONGNAME..RGE.COLORS.GRAY.."!!", true)
 end
 
 function RGE.Write(message, includeName)
@@ -30,14 +30,6 @@ end
 
 function RGE.IsEmpty(str)
 	return str == nil or str == ""
-end
-
-function RGE.tableToStr(t) -- for debugging
-	local str = ""
-	for k, v in pairs(t) do
-		str = str.."["..k.."]="..tostring(v)..",|r"
-	end
-	return str
 end
 
 EVENT_MANAGER:RegisterForEvent("RGE_Loaded", EVENT_ADD_ON_LOADED, RGE.OnLoad)
