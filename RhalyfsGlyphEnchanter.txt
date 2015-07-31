@@ -1,7 +1,7 @@
 ## Title: |c4DB8FFRhalyf's Glyph Enchanter
 ## Author: Rhalyf
 ## Description: Adds information to the Glyph tooltip in your inventory that tells you which Armor, Weapons and Jewelry (equipped, inventory or both!) can be enchanted by that Glyph. In later versions I will add tooltips for Armor, Weapons and Jewelry that show Glyphs that can enchant that item and show the tooltips in stores, banks, trades and loot windows. 
-## Version: 0.2
+## Version: 0.4
 ## APIVersion: 100011
 ## SavedVariables: RGE_SavedSettings
 ## OptionalDependsOn: LibStub LibAddonMenu-2.0

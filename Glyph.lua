@@ -48,7 +48,7 @@ function RGE_Glyph:AddTooltipLinesFor(typeStr, bag)
 	RGE.AddTTLine(typeStr:upper())
 	local count = 0
 	local bagSlots = GetBagSize(bag)
-	for i = 0, bagSlots do
+	for i = 0, bagSlots+1 do
 		local enchantee = RGE_Enchantable:New(bag, i)
 		if (enchantee:IsValid() and self:CanEnchant(enchantee)) then
 			count = count + 1
@@ -58,4 +58,8 @@ function RGE_Glyph:AddTooltipLinesFor(typeStr, bag)
 	if count == 0 then
 		RGE.AddTTLine("No "..typeStr.." are enchantable")
 	end
+end
+
+function RGE_Glyph:ToTooltipStr()
+	return self.formattedLink or self:FormatLink()
 end

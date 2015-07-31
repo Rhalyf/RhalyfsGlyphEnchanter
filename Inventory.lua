@@ -26,9 +26,9 @@ function RGE.AddGlyphEnchantInfo()
 		item:AddTooltipLines()
 	else
 		-- try enchantable
-		-- item = RGE_Enchantable:New(bagId, slotIndex)
-		-- if (item:IsValid()) then
-		-- 	item:AddTooltipLines()
-		-- end
+		item = RGE_Enchantable:New(bagId, slotIndex) -- should probably make a copy constructor 
+		if (item:IsValid()) then
+			item:AddTooltipLines()
+		end
 	end
 end

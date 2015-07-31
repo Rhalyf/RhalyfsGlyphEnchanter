@@ -62,8 +62,8 @@ end
 
 function RGE_Item:Write() -- for debugging
 	local str = ""
-	for k, v in pairs(t) do
+	for k, v in pairs(self) do
 		str = str.."["..k.."]="..tostring(v)..",\n"
 	end
-	RGE.Write(str..", IsValid()="..tostring(self:IsValid()))
+	RGE.Write(str.."IsValid()="..tostring(self:IsValid()))
 end

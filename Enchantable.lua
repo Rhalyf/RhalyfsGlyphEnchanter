@@ -37,3 +37,34 @@ function RGE_Enchantable:ToTooltipStr()
 	end
 	return str
 end
+
+function RGE_Enchantable:AddTooltipLines()
+	RGE.AddTTLine("")
+	ZO_Tooltip_AddDivider(ItemTooltip)
+	RGE.AddTTLine(RGE.COLORS.BLUE..RGE.LONGNAME:upper(), "ZoFontWinH3")
+	RGE.AddTTLine("")
+	self:AddTooltipLinesFor("glyphs in inventory", BAG_BACKPACK)
+end
+
+function RGE_Enchantable:AddTooltipLinesFor(typeStr, bag)
+	RGE.AddTTLine(typeStr:upper())
+	-- self:Write()
+	local count = 0
+	local bagSlots = GetBagSize(bag)
+	for i = 0, bagSlots+1 do
+		local glyph = RGE_Glyph:New(bag, i)
+		-- glyph:Write()
+		-- if (self:IsEnchantableBy(glyph)) then
+		-- 	self:Write()
+		-- 	glyph:Write()
+		-- end
+		if (glyph:IsValid() and self:IsEnchantableBy(glyph)) then
+			count = count + 1
+			RGE.AddTTLine(glyph:ToTooltipStr())
+		end
+	end
+	if count == 0 then
+		RGE.AddTTLine("No "..typeStr.." can enchant this item")
+	end
+end
+
