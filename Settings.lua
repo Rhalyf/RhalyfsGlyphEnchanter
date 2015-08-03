@@ -4,7 +4,7 @@ function RGE.LoadSavedSettings()
   		display_equipped = true,
   		display_inventory = false,
   		display_enchantment = true,
-  		display_description = false,
+  		display_description = true,
   	}
   	-- Documentation: ZO_SavedVars:NewAccountWide(savedVariableName, settingsVersion, settingsNamespace, defaultSettings, settingsProfile)
   	RGE.savedSettings = ZO_SavedVars:NewAccountWide("RGE_SavedSettings", 1, "RGE", defaultSettings, "RGE")

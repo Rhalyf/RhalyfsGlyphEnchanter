@@ -26,41 +26,23 @@ function RGE_Enchantable:IsEnchanted()
 	return not RGE.IsEmpty(self.enchantment) and self.hasCharges
 end
 
-function RGE_Enchantable:ToTooltipStr()
-	local formattedLink = self.formattedLink or self:FormatLink()
-	local str = formattedLink
-	if (RGE.getSavedSetting("display_enchantment") and self:IsEnchanted()) then
-		str = str.."\n"..RGE.COLORS.WHITE..self.enchantment
-		if (RGE.getSavedSetting("display_description")) then
-			str = str.."\n("..self.enchantDescription:sub(0, -2)..")"
-		end
-	end
-	return str
-end
-
-function RGE_Enchantable:AddTooltipLines()
+function RGE_Enchantable:HandleTooltip()
 	RGE.AddTTLine("")
 	ZO_Tooltip_AddDivider(ItemTooltip)
 	RGE.AddTTLine(RGE.COLORS.BLUE..RGE.LONGNAME:upper(), "ZoFontWinH3")
 	RGE.AddTTLine("")
-	self:AddTooltipLinesFor("glyphs in inventory", BAG_BACKPACK)
+	self:HandleTooltipFor("glyphs in inventory", BAG_BACKPACK)
 end
 
-function RGE_Enchantable:AddTooltipLinesFor(typeStr, bag)
+function RGE_Enchantable:HandleTooltipFor(typeStr, bag)
 	RGE.AddTTLine(typeStr:upper())
-	-- self:Write()
 	local count = 0
 	local bagSlots = GetBagSize(bag)
 	for i = 0, bagSlots+1 do
 		local glyph = RGE_Glyph:New(bag, i)
-		-- glyph:Write()
-		-- if (self:IsEnchantableBy(glyph)) then
-		-- 	self:Write()
-		-- 	glyph:Write()
-		-- end
 		if (glyph:IsValid() and self:IsEnchantableBy(glyph)) then
 			count = count + 1
-			RGE.AddTTLine(glyph:ToTooltipStr())
+			glyph:ToTooltipLines()
 		end
 	end
 	if count == 0 then
@@ -68,3 +50,13 @@ function RGE_Enchantable:AddTooltipLinesFor(typeStr, bag)
 	end
 end
 
+function RGE_Enchantable:ToTooltipLines()
+	local formattedLink = self.formattedLink or self:FormatLink()
+	RGE.AddTTLine(formattedLink)
+	if (RGE.getSavedSetting("display_enchantment") and self:IsEnchanted()) then
+		RGE.AddTTLine(self.enchantment, "ZoFontGameSmall")
+	end
+	if (RGE.getSavedSetting("display_description")) then
+		RGE.AddTTLine("("..self.enchantDescription:sub(0, -2)..")", "ZoFontGameSmall")
+	end
+end

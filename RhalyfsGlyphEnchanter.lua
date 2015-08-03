@@ -1,7 +1,5 @@
 RGE = {}
 
--- https://github.com/Sephiroth018/GuildStoreSearchExtended/blob/master/tooltips.lua
-
 function RGE.OnLoad(event, addOnName)
   	if (addOnName ~= RGE.SHORTNAME) then return end
 
@@ -9,7 +7,6 @@ function RGE.OnLoad(event, addOnName)
 
 	RGE.LoadSavedSettings()
 	RGE.InitAddOnSettings()
-	RGE.AttachInventoryPreHooks()
 end
 
 function RGE.SignOfLife()
@@ -37,6 +34,14 @@ function RGE.AddTTLine(str, font)
 		font = "ZoFontWinH5"
 	end
 	ItemTooltip:AddLine(str, font, 1, 1, 1, BOTTOM, MODIFY_TEXT_TYPE_NONE, TEXT_ALIGN_CENTER, null)
+end
+
+function RGE.WriteTable(t)
+	local str = ""
+	for k, v in pairs(t) do
+		str = str.."["..k.."]="..tostring(v)..",\n"
+	end
+	RGE.Write(str)
 end
 
 EVENT_MANAGER:RegisterForEvent("RGE_Loaded", EVENT_ADD_ON_LOADED, RGE.OnLoad)

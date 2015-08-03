@@ -1,34 +1,27 @@
-local lastControl = nil
-
-function RGE.AttachInventoryPreHooks()
-	-- have to delay OnShow call to handle race condition
-	ZO_PreHookHandler(ItemTooltip, "OnShow", function() zo_callLater(RGE.AddGlyphEnchantInfo, 500) end)
-	ZO_PreHookHandler(ItemTooltip, "OnUpdate", function() RGE.AddGlyphEnchantInfo() end)
-	ZO_PreHookHandler(ItemTooltip, "OnHide", function() lastControl = nil end)
+-- LOOK INTO POPUP TOOLTIPS TOO
+local hookSetWornItem = ItemTooltip.SetWornItem
+ItemTooltip.SetWornItem = function(control, slotIndex, ...)
+	hookSetWornItem(control, slotIndex, ...)
+	RGE.AddGlyphTooltipInfo(BAG_WORN, slotIndex)
 end
 
-function RGE.AddGlyphEnchantInfo()
-	local moc = moc() -- mouse over control
-	if (not moc or
-		moc == lastControl or -- don't add glyph info if the control hasn't changed
-		not moc.dataEntry or
-		not moc.dataEntry.data or
-		not moc.dataEntry.data.bagId or
-		not moc.dataEntry.data.slotIndex) 
-		then return end
+local hookSetBagItem = ItemTooltip.SetBagItem
+ItemTooltip.SetBagItem = function(control, bagId, slotIndex, ...)
+	hookSetBagItem(control, bagId, slotIndex, ...)
+	RGE.AddGlyphTooltipInfo(bagId, slotIndex)
+end
 
-	lastControl = moc
-	local bagId = moc.dataEntry.data.bagId
-	local slotIndex = moc.dataEntry.data.slotIndex
-	-- try glyph
+function RGE.AddGlyphTooltipInfo(bagId, slotIndex)
+	if (not bagId or not slotIndex) then return end
+	-- try glyph	
 	local item = RGE_Glyph:New(bagId, slotIndex)
 	if (item:IsValid()) then 
-		item:AddTooltipLines()
+		item:HandleTooltip()
 	else
 		-- try enchantable
 		item = RGE_Enchantable:New(bagId, slotIndex) -- should probably make a copy constructor 
 		if (item:IsValid()) then
-			item:AddTooltipLines()
+			item:HandleTooltip()
 		end
 	end
 end

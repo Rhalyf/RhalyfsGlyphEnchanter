@@ -10,7 +10,7 @@ function RGE_Glyph:IsValid()
 	   		 self.type == ITEMTYPE_GLYPH_WEAPON)
 end
 
-function RGE_Glyph:AddTooltipLines() -- Add Tooltip lines for Glyph tooltip
+function RGE_Glyph:HandleTooltip() -- Add Tooltip lines for Glyph tooltip
 	local displayEquipped = RGE.getSavedSetting("display_equipped")
 	local displayInventory = RGE.getSavedSetting("display_inventory")
 
@@ -21,11 +21,11 @@ function RGE_Glyph:AddTooltipLines() -- Add Tooltip lines for Glyph tooltip
 		local typeStr = self:GetTypeStr()
 		if (displayEquipped) then
 			RGE.AddTTLine("")
-			self:AddTooltipLinesFor("equipped "..typeStr, BAG_WORN)
+			self:HandleTooltipFor("equipped "..typeStr, BAG_WORN)
 		end
 		if (displayInventory) then
 			RGE.AddTTLine("")
-			self:AddTooltipLinesFor(typeStr.." in inventory", BAG_BACKPACK)
+			self:HandleTooltipFor(typeStr.." in inventory", BAG_BACKPACK)
 		end
 	end
 end
@@ -44,7 +44,7 @@ function RGE_Glyph:GetTypeStr()
 	end
 end
 
-function RGE_Glyph:AddTooltipLinesFor(typeStr, bag)
+function RGE_Glyph:HandleTooltipFor(typeStr, bag)
 	RGE.AddTTLine(typeStr:upper())
 	local count = 0
 	local bagSlots = GetBagSize(bag)
@@ -52,7 +52,7 @@ function RGE_Glyph:AddTooltipLinesFor(typeStr, bag)
 		local enchantee = RGE_Enchantable:New(bag, i)
 		if (enchantee:IsValid() and self:CanEnchant(enchantee)) then
 			count = count + 1
-			RGE.AddTTLine(enchantee:ToTooltipStr())
+			enchantee:ToTooltipLines()
 		end
 	end
 	if count == 0 then
@@ -60,6 +60,7 @@ function RGE_Glyph:AddTooltipLinesFor(typeStr, bag)
 	end
 end
 
-function RGE_Glyph:ToTooltipStr()
-	return self.formattedLink or self:FormatLink()
+function RGE_Glyph:ToTooltipLines()
+	local link = self.formattedLink or self:FormatLink()
+	RGE.AddTTLine(link)
 end
