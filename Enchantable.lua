@@ -56,7 +56,7 @@ function RGE_Enchantable:ToTooltipLines()
 	if (RGE.getSavedSetting("display_enchantment") and self:IsEnchanted()) then
 		RGE.AddTTLine(self.enchantment, "ZoFontGameSmall")
 	end
-	if (RGE.getSavedSetting("display_description")) then
+	if (RGE.getSavedSetting("display_description") and self:IsEnchanted()) then
 		RGE.AddTTLine("("..self.enchantDescription:sub(0, -2)..")", "ZoFontGameSmall")
 	end
 end
