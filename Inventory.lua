@@ -36,8 +36,8 @@ local function initPopupTooltip(control, item)
 end
 
 function RGE.AddGlyphTooltipInfo(control, bagId, slotIndex)
-	if (not RGE.getSavedSetting("display_equipped") or
-		not RGE.getSavedSetting("display_inventory") or
+	if ((not RGE.getSavedSetting("display_equipped") and
+		not RGE.getSavedSetting("display_inventory")) or
 		not bagId or not slotIndex) 
 	then return end
 	-- try glyph	
