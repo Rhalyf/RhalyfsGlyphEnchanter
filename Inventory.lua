@@ -16,6 +16,7 @@ local hookClearTooltip = ClearTooltip
 ClearTooltip = function(control)
 	hookClearTooltip(control)
 	if (control:GetName() == 'ItemTooltip' and showingPopupTooltip) then
+		showingPopupTooltip = false
 		ZO_PopupTooltip_Hide()
 	end
 end
