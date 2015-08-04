@@ -33,7 +33,7 @@ function RGE.AddTTLine(str, font)
 	if (not font) then
 		font = "ZoFontWinH5"
 	end
-	ItemTooltip:AddLine(str, font, 1, 1, 1, BOTTOM, MODIFY_TEXT_TYPE_NONE, TEXT_ALIGN_CENTER, null)
+	PopupTooltip:AddLine(str, font, 1, 1, 1, BOTTOM, MODIFY_TEXT_TYPE_NONE, TEXT_ALIGN_CENTER, null)
 end
 
 function RGE.WriteTable(t)

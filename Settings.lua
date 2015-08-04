@@ -31,7 +31,7 @@ function RGE.InitAddOnSettings()
 		},
         [2] = {
 			type = "checkbox",
-			name = "Display chat notifications",
+			name = "Display chat greeting",
 			tooltip = "Recieve chat notification from "..RGE.LONGNAME..".",
 			getFunc = function() return RGE.getSavedSetting("notifications") end,
 			setFunc = function(state) RGE.setSavedSetting("notifications", state) end,

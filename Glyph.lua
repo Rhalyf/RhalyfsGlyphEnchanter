@@ -11,22 +11,18 @@ function RGE_Glyph:IsValid()
 end
 
 function RGE_Glyph:HandleTooltip() -- Add Tooltip lines for Glyph tooltip
-	local displayEquipped = RGE.getSavedSetting("display_equipped")
-	local displayInventory = RGE.getSavedSetting("display_inventory")
-
-	if (displayEquipped or displayInventory) then
+	RGE.AddTTLine("")
+	RGE.AddTTLine(RGE.COLORS.BLUE..RGE.LONGNAME:upper(), "ZoFontWinH2")
+	ZO_Tooltip_AddDivider(PopupTooltip)
+	RGE.AddTTLine("")
+	local typeStr = self:GetTypeStr()
+	if (RGE.getSavedSetting("display_equipped")) then
+		self:HandleTooltipFor("equipped "..typeStr, BAG_WORN)
 		RGE.AddTTLine("")
-		ZO_Tooltip_AddDivider(ItemTooltip)
-		RGE.AddTTLine(RGE.COLORS.BLUE..RGE.LONGNAME:upper(), "ZoFontWinH3")
-		local typeStr = self:GetTypeStr()
-		if (displayEquipped) then
-			RGE.AddTTLine("")
-			self:HandleTooltipFor("equipped "..typeStr, BAG_WORN)
-		end
-		if (displayInventory) then
-			RGE.AddTTLine("")
-			self:HandleTooltipFor(typeStr.." in inventory", BAG_BACKPACK)
-		end
+	end
+	if (RGE.getSavedSetting("display_inventory")) then
+		RGE.AddTTLine("")
+		self:HandleTooltipFor(typeStr.." in inventory", BAG_BACKPACK)
 	end
 end
 
@@ -45,7 +41,7 @@ function RGE_Glyph:GetTypeStr()
 end
 
 function RGE_Glyph:HandleTooltipFor(typeStr, bag)
-	RGE.AddTTLine(typeStr:upper())
+	RGE.AddTTLine(typeStr:upper(), "ZoFontWinH4")
 	local count = 0
 	local bagSlots = GetBagSize(bag)
 	for i = 0, bagSlots+1 do
@@ -60,7 +56,10 @@ function RGE_Glyph:HandleTooltipFor(typeStr, bag)
 	end
 end
 
-function RGE_Glyph:ToTooltipLines()
-	local link = self.formattedLink or self:FormatLink()
-	RGE.AddTTLine(link)
+function RGE_Glyph:ToTooltipLines(count)
+	local line = self.formattedLink or self:FormatLink()
+	if (count and count > 1) then
+		line = line.." (x"..count..")"
+	end
+	RGE.AddTTLine(line)
 end
