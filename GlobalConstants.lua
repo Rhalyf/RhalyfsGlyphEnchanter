@@ -7,4 +7,4 @@ RGE.COLORS = {
 	YELLOW = "|cFFFF00",
 }
 RGE.AUTHOR = "Rhalyf"
-RGE.VERSION = 0.6
+RGE.VERSION = 0.7
