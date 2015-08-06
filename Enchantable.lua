@@ -1,14 +1,5 @@
 RGE_Enchantable = RGE_Item:New()
 
-function RGE_Enchantable:Init(bagId, slotIndex)
-	self.bag = bagId
-	self.slot = slotIndex
-	self.link = GetItemLink(self.bag, self.slot)
-	self.type = GetItemLinkItemType(self.link)
-	self.name = GetItemLinkName(self.link)
-	self.hasCharges, self.enchantment, self.enchantDescription = GetItemLinkEnchantInfo(self.link)
-end
-
 function RGE_Enchantable:IsValid()
 	return  (self.bag > -1 and
 			self.slot > -1 and
@@ -30,6 +21,10 @@ function RGE_Enchantable:HandleTooltip()
 	RGE.AddTTLine("")
 	RGE.AddTTLine(RGE.COLORS.BLUE..RGE.LONGNAME:upper(), "ZoFontWinH2")
 	ZO_Tooltip_AddDivider(PopupTooltip)
+	if (RGE.getSavedSetting("display_name")) then
+		local formattedLink = self.formattedLink or self:FormatLink()
+		RGE.AddTTLine(formattedLink, "ZoFontWinH3")
+	end
 	RGE.AddTTLine("")
 	self:HandleTooltipFor("glyphs in inventory", BAG_BACKPACK)
 end

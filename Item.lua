@@ -15,6 +15,7 @@ function RGE_Item:Init(bagId, slotIndex)
 	self.link = GetItemLink(self.bag, self.slot)
 	self.type = GetItemLinkItemType(self.link)
 	self.name = GetItemLinkName(self.link)
+	self.hasCharges, self.enchantment, self.enchantDescription = GetItemLinkEnchantInfo(self.link)
 end
 
 function RGE_Item:IsValid()

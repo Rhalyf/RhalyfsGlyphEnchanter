@@ -14,6 +14,10 @@ function RGE_Glyph:HandleTooltip() -- Add Tooltip lines for Glyph tooltip
 	RGE.AddTTLine("")
 	RGE.AddTTLine(RGE.COLORS.BLUE..RGE.LONGNAME:upper(), "ZoFontWinH2")
 	ZO_Tooltip_AddDivider(PopupTooltip)
+	if (RGE.getSavedSetting("display_name")) then
+		local formattedLink = self.formattedLink or self:FormatLink()
+		RGE.AddTTLine(formattedLink, "ZoFontWinH3")
+	end
 	RGE.AddTTLine("")
 	local typeStr = self:GetTypeStr()
 	if (RGE.getSavedSetting("display_equipped")) then
@@ -62,4 +66,7 @@ function RGE_Glyph:ToTooltipLines(count)
 		line = line.." (x"..count..")"
 	end
 	RGE.AddTTLine(line)
+	if (RGE.getSavedSetting("display_description")) then
+		RGE.AddTTLine("("..self.enchantDescription:sub(0, -2)..")", "ZoFontGameSmall")
+	end
 end

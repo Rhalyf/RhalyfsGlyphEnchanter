@@ -1,6 +1,7 @@
 function RGE.LoadSavedSettings()
 	local defaultSettings = {
   		notifications = true,
+  		display_name = true,
   		display_equipped = true,
   		display_inventory = false,
   		display_enchantment = true,
@@ -38,26 +39,33 @@ function RGE.InitAddOnSettings()
         },
         [3] = {
         	type = "checkbox",
+			name = "Display item name in tooltip",
+			tooltip = "Shows the name of the item that the tooltip is showing details for.",
+			getFunc = function() return RGE.getSavedSetting("display_name") end,
+			setFunc = function(state) RGE.setSavedSetting("display_name", state) end,
+    	},
+        [4] = {
+        	type = "checkbox",
 			name = "Display equipped items in enchantable toolip",
 			tooltip = "Display equipped items that can be enchanted in the tooltip when hovering over a glyph",
 			getFunc = function() return RGE.getSavedSetting("display_equipped") end,
 			setFunc = function(state) RGE.setSavedSetting("display_equipped", state) end,
     	},
-    	[4] = {
+    	[5] = {
     		type = "checkbox",
 			name = "Display inventory items in enchantable tooltip",
 			tooltip = "Display items in inventory that can be enchanted in the tooltip when hovering over a glyph",
 			getFunc = function() return RGE.getSavedSetting("display_inventory") end,
 			setFunc = function(state) RGE.setSavedSetting("display_inventory", state) end,
     	},
-    	[5] = {
+    	[6] = {
     		type = "checkbox",
 			name = "Show current enchantment in tooltips",
 			tooltip = "Shows the current enchantment when listing items in tooltips. Warning: this makes the tooltips longer and sometimes harder to read",
 			getFunc = function() return RGE.getSavedSetting("display_enchantment") end,
 			setFunc = function(state) RGE.setSavedSetting("display_enchantment", state) end,
     	},
-    	[6] = {
+    	[7] = {
     		type = "checkbox",
 			name = "Show enchantment description in tooltips",
 			tooltip = "Shows the current enchantment description when listing items in tooltips. Warning: this makes the tooltips MUCH longer and sometimes harder to read",
